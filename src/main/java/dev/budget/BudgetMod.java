@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
@@ -51,12 +51,12 @@ public class BudgetMod implements ClientModInitializer {
     public void onInitializeClient() {
         // Only registers the command. NO network request here.
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-                dispatcher.register(ClientCommandManager.literal("budget")
+                dispatcher.register(ClientCommands.literal("budget")
                         .executes(ctx -> {
                             msg(ctx.getSource(), "Usage: /budget 10m   (k = thousand, m = million, b = billion)");
                             return 1;
                         })
-                        .then(ClientCommandManager.argument("amount", StringArgumentType.word())
+                        .then(ClientCommands.argument("amount", StringArgumentType.word())
                                 .executes(ctx -> {
                                     FabricClientCommandSource src = ctx.getSource();
                                     double budget = parseBudget(StringArgumentType.getString(ctx, "amount"));
