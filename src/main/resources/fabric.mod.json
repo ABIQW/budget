@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "budgetmod",
+  "version": "1.0.0",
+  "name": "Budget",
+  "description": "Suggests one Bazaar flip for your budget. Information only.",
+  "authors": ["ABIQW"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.budget.BudgetMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "fabric-api": "*"
+  }
+}
