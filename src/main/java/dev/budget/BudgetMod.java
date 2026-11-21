@@ -310,7 +310,7 @@ public class BudgetMod implements ClientModInitializer {
     }
 
     // ---------------------------------------------------------------------
-    // Output. Only the 7 main values are green (§a); everything else is white (§f).
+    // Output. The 8 main values are green (\u00a7a) and come first; everything else is white (\u00a7f) and comes after.
     // ---------------------------------------------------------------------
 
     private static String green(String s) {
@@ -322,22 +322,23 @@ public class BudgetMod implements ClientModInitializer {
     }
 
     private static void show(FabricClientCommandSource src, double budget, Pick p) {
-        msg(src, white("=== Budget: best item ==="));
+        // --- Green block: the 8 main values, in this exact order, one after another ---
+        msg(src, green("Item: " + p.name));
+        msg(src, green("Buy Order price: " + d(p.buyOrder)));
+        msg(src, green("Quantity: " + n(p.qty)));
+        msg(src, green("Total cost: " + n(p.cost)));
+        msg(src, green("Sell Offer price: " + d(p.sellOffer)));
+        msg(src, green("Gross sales: " + n(p.gross)));
+        msg(src, green("Estimated net profit: " + n(p.net)));
+        msg(src, green("ROI: " + String.format("%.2f", p.roi) + "%"));
+
+        // --- White block: details, after the green block ---
+        msg(src, white("--- Details ---"));
         msg(src, white("Budget: " + n(budget)));
-        msg(src, green("Item: " + p.name));                                              // 1 Item name
-        msg(src, white("--- Step 1: Buy Order ---"));
-        msg(src, white("Instant buy price now: " + d(p.instantBuy) + " (not recommended)"));
-        msg(src, green("Buy Order price: " + d(p.buyOrder)));                            // 2 Buy Order price
-        msg(src, green("Quantity: " + n(p.qty)));                                        // 6 Quantity
-        msg(src, green("Total cost: " + n(p.cost)));                                     // 5 Total cost
         msg(src, white("Remaining budget: " + n(budget - p.cost)));
-        msg(src, white("Estimated fill time: " + t(p.waitBuyH)));
-        msg(src, white("--- Step 2: Sell Offer (after order is filled) ---"));
-        msg(src, green("Sell Offer price: " + d(p.sellOffer)));                          // 3 Sell Offer price
-        msg(src, white("Gross sales: " + n(p.gross)));
+        msg(src, white("Instant buy price now: " + d(p.instantBuy) + " (not recommended)"));
         msg(src, white("Estimated fees (1.25%): " + n(p.fees)));
-        msg(src, green("Estimated net profit: " + n(p.net)));                            // 4 Net profit
-        msg(src, green("ROI: " + String.format("%.2f", p.roi) + "%"));                   // 7 ROI
+        msg(src, white("Estimated fill time: " + t(p.waitBuyH)));
         msg(src, white("Estimated sell time: " + t(p.waitSellH)));
         msg(src, white("--- Market activity ---"));
         msg(src, white("Instant-sold per day (fills Buy Orders): " + n(p.flowBuyDay)));
